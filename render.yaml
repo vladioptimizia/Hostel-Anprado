@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: hostel-anprado-painel
+    runtime: node
+    buildCommand: ""
+    startCommand: node server.mjs
+    healthCheckPath: /api/me
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: ANPRADO_ANDERSON_PASSWORD
+        sync: false

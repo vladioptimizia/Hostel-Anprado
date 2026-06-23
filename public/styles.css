@@ -420,27 +420,7 @@ main {
   border-radius: 7px;
 }
 
-/* ── Vladi executor sidebar theme ── */
-.shell[data-role="vladi"] .brand { color: var(--blue); }
-.shell[data-role="vladi"] .sidebar nav button:hover {
-  background: var(--blue-dim);
-  color: var(--ink);
-}
-.shell[data-role="vladi"] .sidebar nav button.active {
-  background: var(--blue-dim);
-  color: var(--blue);
-  border-left-color: var(--blue);
-}
-.shell[data-role="vladi"] .health {
-  background: var(--blue-dim);
-  color: var(--blue);
-}
-.shell[data-role="vladi"] .profile button { color: var(--blue); }
-.shell[data-role="vladi"] .hero {
-  background: linear-gradient(135deg, rgba(91,155,245,.06) 0%, transparent 60%);
-}
-.shell[data-role="vladi"] .eyebrow { color: var(--blue); }
-.shell[data-role="vladi"] .stats strong { color: var(--blue); }
+/* ── Vladi usa o mesmo tema dourado — sem diferenciação por cor ── */
 
 /* ── Status chips ── */
 .chip {
@@ -452,7 +432,7 @@ main {
   white-space: nowrap;
   vertical-align: middle;
 }
-.chip-blue { background: rgba(91,155,245,.15); color: var(--blue); }
+.chip-blue { background: rgba(219,181,79,.12); color: var(--gold); }
 .chip-red { background: rgba(225,122,107,.15); color: var(--red); }
 .chip-gold { background: rgba(219,181,79,.15); color: var(--gold); }
 .chip-green { background: rgba(111,198,148,.15); color: var(--green); }
@@ -539,7 +519,7 @@ main {
 }
 .btn-sm:hover { opacity: .8; transform: translateY(-1px); }
 .btn-sm:active { transform: translateY(0); }
-.btn-blue { background: rgba(91,155,245,.15); color: var(--blue); }
+.btn-blue { background: rgba(219,181,79,.12); color: var(--gold); }
 .btn-red { background: rgba(225,122,107,.15); color: var(--red); }
 .btn-gold { background: rgba(219,181,79,.15); color: var(--gold); }
 .btn-green { background: rgba(111,198,148,.15); color: var(--green); }
@@ -597,7 +577,7 @@ main {
   margin-top: 12px;
   transition: border-color var(--t);
 }
-.situacao-editor:focus { border-color: var(--blue); }
+.situacao-editor:focus { border-color: var(--gold); }
 .situacao-actions {
   display: flex;
   gap: 10px;
@@ -623,7 +603,7 @@ main {
 .ext-link { display: inline-block; margin-top: 12px; font: 600 11px Manrope, system-ui; color: var(--gold); text-decoration: none; }
 .ext-link:hover { text-decoration: underline; }
 .ext-link-sm { font: 600 10px Manrope, system-ui; color: var(--muted); text-decoration: none; white-space: nowrap; }
-.ext-link-sm:hover { color: var(--blue); }
+.ext-link-sm:hover { color: var(--gold); }
 .site-links { display: grid; gap: 10px; }
 .site-link { display: flex; gap: 12px; align-items: center; padding: 12px; background: var(--panel2); border: 1px solid var(--line); border-radius: 9px; text-decoration: none; color: var(--ink); transition: border-color var(--t); }
 .site-link:hover { border-color: rgba(219,181,79,.3); }
@@ -634,7 +614,7 @@ main {
 .field-row { display: grid; gap: 5px; }
 .field-row label { font-size: 11px; color: var(--muted); font-weight: 600; }
 .camp-input { background: var(--bg); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font: 13px Manrope, system-ui; padding: 8px 11px; outline: none; width: 100%; transition: border-color var(--t); }
-.camp-input:focus { border-color: var(--blue); }
+.camp-input:focus { border-color: var(--gold); }
 @media (max-width: 800px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* ── Mobile ── */

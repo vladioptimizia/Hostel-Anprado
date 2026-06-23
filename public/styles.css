@@ -34,6 +34,13 @@ body {
 }
 a { color: inherit; }
 
+/* iOS fix: font-size ≥ 16px em todos os inputs evita auto-zoom no Safari */
+input, textarea, select {
+  font-size: 16px;
+}
+/* Botões sem delay de double-tap */
+button, a { touch-action: manipulation; }
+
 /* ════════════════════════════════════════
    SHELL — mobile: stack vertical
    ════════════════════════════════════════ */
@@ -304,8 +311,8 @@ main {
   font-size: 11px;
 }
 
-/* Months — mobile: 2 cols */
-.months { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+/* Months — mobile: 1 col */
+.months { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
 .months article {
   border-left: 2px solid var(--line);
   padding: 14px;
@@ -369,7 +376,7 @@ main {
   background: var(--bg);
   color: var(--ink);
   padding: 0 14px;
-  font: 14px Manrope, system-ui;
+  font-family: Manrope, system-ui;
   transition: border-color var(--t);
   outline: none;
   width: 100%;
@@ -464,7 +471,7 @@ main {
   border: 0;
   border-bottom: 1px dashed rgba(225,122,107,.4);
   color: #ffb3aa;
-  font: 12px Manrope, system-ui;
+  font-family: Manrope, system-ui;
   outline: none;
   padding: 2px 0;
   min-width: 0;
@@ -542,7 +549,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 7px;
   color: var(--muted);
-  font: 13px Manrope, system-ui;
+  font-family: Manrope, system-ui;
   padding: 10px 12px;
   outline: none;
   margin-top: 6px;
@@ -558,7 +565,8 @@ main {
   border: 1px solid var(--line);
   border-radius: 9px;
   color: var(--ink);
-  font: 13px/1.8 'DM Mono', monospace;
+  font-family: 'DM Mono', monospace;
+  line-height: 1.8;
   padding: 15px;
   resize: vertical;
   outline: none;
@@ -594,7 +602,7 @@ main {
 .camp-active { border-left: 3px solid var(--green); }
 .camp-warn   { border-left: 3px solid var(--gold); }
 .camp-row-head { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
-.camp-row-head b { font-size: 13px; flex: 1; min-width: 180px; line-height: 1.4; }
+.camp-row-head b { font-size: 13px; flex: 1; min-width: 0; line-height: 1.4; width: 100%; }
 .camp-note { font: 11px 'DM Mono', monospace; color: var(--muted); display: block; margin-top: 6px; line-height: 1.5; }
 
 .ext-link { display: inline-block; margin-top: 12px; font: 600 11px Manrope, system-ui; color: var(--gold); text-decoration: none; min-height: 44px; line-height: 44px; }
@@ -630,7 +638,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 7px;
   color: var(--ink);
-  font: 14px Manrope, system-ui;
+  font-family: Manrope, system-ui;
   padding: 10px 12px;
   outline: none;
   width: 100%;
@@ -778,4 +786,13 @@ main {
 
 @media (min-width: 1100px) {
   .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Ecrãs muito pequenos (<400px): 1 coluna em stats e metrics */
+@media (max-width: 400px) {
+  .stats { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: 1fr; }
+  main { padding: 16px 12px 48px; }
+  .hero { padding: 16px; }
+  .panel { padding: 14px; }
 }

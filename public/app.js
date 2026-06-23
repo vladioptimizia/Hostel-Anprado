@@ -445,7 +445,13 @@ function appShell() {
   const content = viewMap[activeView]();
   return `<div class="shell" data-role="${activeRole}">
     <aside class="sidebar">
-      <div class="brand">Hostel Anprado<small>painel ${isV?'executor':'do proprietário'}</small></div>
+      <div class="sidebar-top">
+        <div class="brand">Hostel Anprado<small>painel ${isV?'executor':'do proprietário'}</small></div>
+        <div class="mobile-user">
+          <span>${isV?'Vladi · Optimizia':'Anderson'}</span>
+          <button id="logout-mobile" class="logout-btn-mobile">Sair</button>
+        </div>
+      </div>
       <nav>${nav.map(n=>`<button data-view="${n[0]}" class="${activeView===n[0]?'active':''}">${n[1]}</button>`).join('')}</nav>
       <div class="profile"><b>${isV?'Vladi · Optimizia':'Anderson'}</b><span>${isV?'Executor · gestão operacional':'Proprietário · acesso executivo'}</span><button id="logout">Sair</button></div>
     </aside>
@@ -481,10 +487,12 @@ async function render() {
   app.innerHTML = appShell();
 
   document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => { activeView = b.dataset.view; render(); });
-  document.querySelector('#logout').onclick = async () => {
+  const doLogout = async () => {
     await fetch('/api/logout', {method:'POST'});
     activeRole = null; activeView = null; S = null; render();
   };
+  document.querySelector('#logout')?.addEventListener('click', doLogout);
+  document.querySelector('#logout-mobile')?.addEventListener('click', doLogout);
 
   // Anderson checkboxes → server
   document.querySelectorAll('[data-atask]').forEach(inp => inp.onchange = async () => {

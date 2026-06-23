@@ -199,6 +199,8 @@ main {
   border-radius: var(--radius);
   padding: 16px;
   transition: border-color var(--t), box-shadow var(--t);
+  min-width: 0;
+  overflow: hidden;
 }
 .stats article:hover { border-color: rgba(219,181,79,.25); box-shadow: var(--shadow); }
 .stats strong {
@@ -229,6 +231,9 @@ main {
   border-radius: var(--radius);
   padding: 18px;
   box-shadow: var(--shadow);
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
 }
 .panel h2 { font-size: 13px; font-weight: 700; margin: 0 0 14px; }
 .panel-head {
@@ -439,7 +444,7 @@ main {
 /* ════════════════════════════════════════
    VLADI TASK CARDS
    ════════════════════════════════════════ */
-.vtask-list { display: grid; gap: 10px; margin-top: 6px; }
+.vtask-list { display: grid; gap: 10px; margin-top: 6px; min-width: 0; width: 100%; }
 .vtask {
   background: var(--panel2);
   border: 1px solid var(--line);
@@ -447,6 +452,9 @@ main {
   padding: 15px;
   display: grid;
   gap: 10px;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
 }
 .vtask-blocked { border-left: 3px solid var(--red); background: rgba(225,122,107,.04); }
 .vtask-done { opacity: .55; }
@@ -456,8 +464,11 @@ main {
   display: flex;
   flex-direction: column;
   gap: 7px;
+  min-width: 0;
+  overflow: hidden;
 }
-.vtask-head b { font-size: 13px; line-height: 1.45; }
+.vtask-head b { font-size: 13px; line-height: 1.45; word-break: break-word; min-width: 0; }
+.chip { max-width: 100%; align-self: flex-start; }
 
 .vtask-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--muted); }
 

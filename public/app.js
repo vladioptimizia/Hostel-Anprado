@@ -454,7 +454,10 @@ function appShell() {
       <nav>${nav.map(n=>`<button data-view="${n[0]}" class="${activeView===n[0]?'active':''}">${n[1]}</button>`).join('')}</nav>
       <div class="profile"><b>${isV?'Vladi · Optimizia':'Anderson'}</b><span>${isV?'Executor · gestão operacional':'Proprietário · acesso executivo'}</span><button id="logout">Sair</button></div>
     </aside>
-    <main>${content}</main>
+    <main>
+      ${content}
+      <footer class="site-footer">Desenvolvido por <a href="http://www.optimizia.pt" target="_blank" rel="noopener">Optimizia Lda</a> · Hostel Anprado</footer>
+    </main>
   </div>`;
 }
 

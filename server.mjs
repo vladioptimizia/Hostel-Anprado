@@ -1,16 +1,18 @@
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { join, extname, normalize } from 'node:path';
 
 const root = process.cwd();
 const publicDir = join(root, 'public');
-const dataDir = join(root, 'data');
-const statePath = join(dataDir, 'state.json');
 const port = Number(process.env.PORT || 4174);
 const host = process.env.HOST || '0.0.0.0';
 const andersonPwd = process.env.ANPRADO_ANDERSON_PASSWORD || '';
-const vladPwd = process.env.ANPRADO_VLADI_PASSWORD || '';
+const vladPwd     = process.env.ANPRADO_VLADI_PASSWORD || '';
+const SUPA_URL    = process.env.SUPABASE_URL || '';
+const SUPA_KEY    = process.env.SUPABASE_KEY || '';
+const STATE_KEY   = 'hostel_anprado';
+
 const sessions = new Map();
 const cookieName = 'anprado_session';
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
@@ -23,27 +25,39 @@ const cookies = req => Object.fromEntries((req.headers.cookie||'').split(';').ma
 const readBody = async req => { let v=''; for await(const p of req)v+=p; if(v.length>200000)throw Error('Pedido demasiado grande'); return v?JSON.parse(v):{}; };
 const same = (a,b) => { if(!a||!b)return false; const x=Buffer.from(a),y=Buffer.from(b); return x.length===y.length&&timingSafeEqual(x,y); };
 
-// ── State ─────────────────────────────────────────────────────
-let appState = null;
+// ── Supabase helpers ──────────────────────────────────────────
+const supaHeaders = {
+  'apikey': SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=minimal'
+};
 
 async function loadState() {
-  try {
-    appState = JSON.parse(await readFile(statePath, 'utf8'));
-  } catch {
-    appState = { cycles: [], campaigns: { google: {}, meta: {} } };
+  if (!SUPA_URL || !SUPA_KEY) {
+    // Fallback: read from local file (dev mode)
+    try {
+      return JSON.parse(await readFile(join(root, 'data', 'state.json'), 'utf8'));
+    } catch { return { cycles: [], campaigns: { google: {}, meta: {} } }; }
   }
+  const r = await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}&select=value`, { headers: supaHeaders });
+  const rows = await r.json();
+  return rows[0]?.value || { cycles: [], campaigns: { google: {}, meta: {} } };
 }
 
-async function saveState() {
-  try {
-    await mkdir(dataDir, { recursive: true });
-    await writeFile(statePath, JSON.stringify(appState, null, 2));
-  } catch (e) {
-    console.error('State save error:', e.message);
-  }
+async function saveState(state) {
+  if (!SUPA_URL || !SUPA_KEY) return; // skip in dev (file already up to date)
+  await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}`, {
+    method: 'PATCH',
+    headers: { ...supaHeaders, 'Prefer': 'resolution=merge-duplicates' },
+    body: JSON.stringify({ value: state, updated_at: new Date().toISOString() })
+  });
 }
 
-// ── Server ────────────────────────────────────────────────────
+// ── In-memory cache ───────────────────────────────────────────
+let appState = null;
+
+// ── HTTP server ───────────────────────────────────────────────
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   const token = cookies(req)[cookieName];
@@ -72,20 +86,24 @@ createServer(async (req, res) => {
   if (url.pathname.startsWith('/api/') && !role)
     return json(res, 401, { error: 'Não autenticado' });
 
-  if (url.pathname === '/api/state' && req.method === 'GET')
+  if (url.pathname === '/api/state' && req.method === 'GET') {
+    if (!appState) appState = await loadState();
     return json(res, 200, appState);
+  }
 
   if (url.pathname === '/api/state' && req.method === 'POST') {
     const data = await readBody(req);
+    if (!appState) appState = await loadState();
     if (data.cycles !== undefined) appState.cycles = data.cycles;
     if (data.campaigns !== undefined) appState.campaigns = data.campaigns;
-    await saveState();
+    await saveState(appState);
     return json(res, 200, appState);
   }
 
   if (url.pathname === '/api/cycle/close' && req.method === 'POST') {
     if (role !== 'vladi') return json(res, 403, { error: 'Apenas Vladi pode fechar ciclos.' });
     const data = await readBody(req);
+    if (!appState) appState = await loadState();
     const active = appState.cycles.find(c => c.status === 'active');
     if (!active) return json(res, 400, { error: 'Nenhum ciclo activo.' });
     active.status = 'closed';
@@ -109,7 +127,7 @@ createServer(async (req, res) => {
       andersonDone:false, vladStatus:'backlog', blocker:'', evidencia:''
     }));
     next.status = 'active';
-    await saveState();
+    await saveState(appState);
     return json(res, 200, appState);
   }
 
@@ -123,4 +141,6 @@ createServer(async (req, res) => {
 
 }).listen(port, host, () => console.log(`Painel: http://${host}:${port}`));
 
-await loadState();
+// Pre-load state on startup
+appState = await loadState();
+console.log(`State loaded: ${appState.cycles?.length || 0} ciclos`);

@@ -1,0 +1,38 @@
+{
+  "cycles": [
+    {
+      "id": "jun-2026",
+      "name": "Ciclo inicial",
+      "period": "16–30 Jun 2026",
+      "days": 15,
+      "status": "active",
+      "tasks": [
+        {"id":"t0","title":"Validar landing: fotos, galerias, WhatsApp, links e versão mobile","owner":"Anderson + Optimizia","prazo":"18 Jun","proof":"Checklist e capturas aprovadas","andersonDone":false,"vladStatus":"em_execucao","blocker":"","evidencia":""},
+        {"id":"t1","title":"Criar ou confirmar conta oficial do Hostel na Netlify + 2FA","owner":"Anderson","prazo":"20 Jun","proof":"Proprietário e recuperação documentados","andersonDone":false,"vladStatus":"aguardando_aprovacao","blocker":"","evidencia":"Conta criada — aguardando Anderson confirmar 2FA"},
+        {"id":"t2","title":"Confirmar domínio principal, SSL e redirecionamento","owner":"Anderson + Optimizia","prazo":"23 Jun","proof":"hostelanprado.com.br abre com HTTPS","andersonDone":false,"vladStatus":"em_execucao","blocker":"","evidencia":""},
+        {"id":"t3","title":"Entregar acessos: GA4, Tag Manager, Search Console e Meta","owner":"Anderson","prazo":"25 Jun","proof":"Contas compartilhadas com a equipa","andersonDone":false,"vladStatus":"bloqueado","blocker":"Aguardando acesso ao e-mail oficial do hostel","evidencia":""},
+        {"id":"t4","title":"Aplicar SEO técnico e SEO local","owner":"Optimizia","prazo":"28 Jun","proof":"Sitemap, canonical e perfil local validados","andersonDone":false,"vladStatus":"backlog","blocker":"","evidencia":""},
+        {"id":"t5","title":"Aprovar plano de tráfego: orçamento, público, criativos e conversões","owner":"Anderson + Optimizia","prazo":"30 Jun","proof":"Plano de mídia aprovado","andersonDone":false,"vladStatus":"backlog","blocker":"","evidencia":""}
+      ],
+      "situacao": "",
+      "results": "",
+      "closedAt": null
+    },
+    {
+      "id": "jul-2026",
+      "name": "Ciclo julho",
+      "period": "1–31 Jul 2026",
+      "days": 30,
+      "status": "planned",
+      "tasks": [],
+      "goals": [],
+      "situacao": "",
+      "results": "",
+      "closedAt": null
+    }
+  ],
+  "campaigns": {
+    "google": {"verba":"1349.10","impressoes":"392107","cliques":"4231","ctr":"1.08","cpc":"0.32","contatos":"","reservas":"","periodo":"Nov 2023 – Jun 2026 (histórico)"},
+    "meta": {"verba":"","impressoes":"","cliques":"","cpm":"","contatos":"","reservas":"","periodo":""}
+  }
+}

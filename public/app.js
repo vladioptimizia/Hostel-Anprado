@@ -31,12 +31,12 @@ function header(title, desc) {
   const isV = activeRole === 'vladi';
   const cycle = activeCycle();
   return `<section class="hero">
-    <div>
-      <p class="eyebrow">Hostel Anprado · ${isV?'executor':'proprietário'} · ${esc(cycle.period||cycle.name)}</p>
-      <h1>${title}</h1>
-      <p>${desc}</p>
+    <div class="hero-top">
+      <p class="eyebrow">${isV?'Executor':'Proprietário'} · ${esc(cycle.name||cycle.period)}</p>
+      <span class="health">● ${isV?'operacional':'em execução'}</span>
     </div>
-    <span class="health">● ${isV?'operacional':'ciclo em execução'}</span>
+    <h1>${title}</h1>
+    <p class="hero-desc">${desc}</p>
   </section>`;
 }
 

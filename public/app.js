@@ -448,7 +448,6 @@ function appShell() {
       <div class="sidebar-top">
         <div class="brand">Hostel Anprado<small>painel ${isV?'executor':'do proprietário'}</small></div>
         <div class="mobile-user">
-          <span>${isV?'Vladi · Optimizia':'Anderson'}</span>
           <button id="logout-mobile" class="logout-btn-mobile">Sair</button>
         </div>
       </div>

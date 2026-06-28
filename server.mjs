@@ -34,24 +34,47 @@ const supaHeaders = {
 };
 
 async function loadState() {
-  if (!SUPA_URL || !SUPA_KEY) {
-    // Fallback: read from local file (dev mode)
+  if (SUPA_URL && SUPA_KEY) {
     try {
-      return JSON.parse(await readFile(join(root, 'data', 'state.json'), 'utf8'));
-    } catch { return { cycles: [], campaigns: { google: {}, meta: {} } }; }
+      const r = await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}&select=value`, { headers: supaHeaders });
+      if (r.ok) {
+        const rows = await r.json();
+        if (rows[0]?.value?.cycles?.length) {
+          console.log('State loaded from Supabase');
+          return rows[0].value;
+        }
+      } else {
+        console.error('Supabase loadState HTTP error:', r.status);
+      }
+    } catch (e) {
+      console.error('Supabase loadState failed:', e.message);
+    }
   }
-  const r = await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}&select=value`, { headers: supaHeaders });
-  const rows = await r.json();
-  return rows[0]?.value || { cycles: [], campaigns: { google: {}, meta: {} } };
+  try {
+    const s = JSON.parse(await readFile(join(root, 'data', 'state.json'), 'utf8'));
+    console.log('State loaded from file');
+    return s;
+  } catch {
+    console.log('State initialized empty');
+    return { cycles: [], campaigns: { google: {}, meta: {} } };
+  }
 }
 
 async function saveState(state) {
-  if (!SUPA_URL || !SUPA_KEY) return; // skip in dev (file already up to date)
-  await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}`, {
-    method: 'PATCH',
-    headers: { ...supaHeaders, 'Prefer': 'resolution=merge-duplicates' },
-    body: JSON.stringify({ value: state, updated_at: new Date().toISOString() })
-  });
+  if (!SUPA_URL || !SUPA_KEY) return;
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/panel_state?key=eq.${STATE_KEY}`, {
+      method: 'PATCH',
+      headers: supaHeaders,
+      body: JSON.stringify({ value: state, updated_at: new Date().toISOString() })
+    });
+    if (!r.ok) {
+      const err = await r.text();
+      console.error('Supabase saveState error:', r.status, err);
+    }
+  } catch (e) {
+    console.error('Supabase saveState failed:', e.message);
+  }
 }
 
 // ── In-memory cache ───────────────────────────────────────────

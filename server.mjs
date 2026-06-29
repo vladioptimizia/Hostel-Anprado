@@ -119,6 +119,7 @@ createServer(async (req, res) => {
     if (!appState) appState = await loadState();
     if (data.cycles !== undefined) appState.cycles = data.cycles;
     if (data.campaigns !== undefined) appState.campaigns = data.campaigns;
+    if (data.referencias !== undefined) appState.referencias = data.referencias;
     await saveState(appState);
     return json(res, 200, appState);
   }

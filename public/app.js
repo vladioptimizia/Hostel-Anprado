@@ -24,8 +24,8 @@ const STATUS = {
 const chip = s => { const x = STATUS[s] || STATUS.backlog; return `<span class="chip ${x.cls}">${x.label}</span>`; };
 
 // ── Navigation ────────────────────────────────────────────────
-const andersonNav = [['overview','Visão geral'],['cycle','Ciclo'],['infra','Infraestrutura'],['growth','Marketing & SEO'],['campaigns','Campanhas & Site'],['monthly','Ciclos mensais'],['risks','Decisões & riscos']];
-const vladiNav    = [['exec','Em execução'],['backlog','Backlog'],['approve','Aprovações'],['evidence','Evidências'],['campaigns','Campanhas'],['situacao','Situação'],['close','Fechar ciclo']];
+const andersonNav = [['overview','Visão geral'],['cycle','Ciclo'],['infra','Infraestrutura'],['growth','Marketing & SEO'],['campaigns','Campanhas & Site'],['referencias','Referências Vladi'],['monthly','Ciclos mensais'],['risks','Decisões & riscos']];
+const vladiNav    = [['exec','Em execução'],['backlog','Backlog'],['approve','Aprovações'],['evidence','Evidências'],['campaigns','Campanhas'],['referencias','Referências'],['situacao','Situação'],['close','Fechar ciclo']];
 
 function header(title, desc) {
   const isV = activeRole === 'vladi';
@@ -342,6 +342,78 @@ ${done.length < tasks.length ? `<section class="notice" style="margin-top:16px">
 }
 
 // ═══════════════════════════════════════════
+//  REFERÊNCIAS
+// ═══════════════════════════════════════════
+const TIPOS = {
+  marketing: {label:'Marketing', cls:'chip-gold'},
+  instagram: {label:'Instagram', cls:'chip-red'},
+  referencia:{label:'Referência', cls:'chip-green'},
+  campanha:  {label:'Campanha',  cls:'chip-gold'},
+  outro:     {label:'Outro',     cls:'chip-muted'}
+};
+
+// Anderson — lê referências
+function referenciasAnderson() {
+  const refs = S?.referencias || [];
+  return `${header('Referências da Optimizia','Ideias e materiais enviados pelo Vladi para apresentação e aprovação.')}
+<section class="panel full">
+  <div class="panel-head"><h2>Materiais enviados</h2><span>${refs.length} item(ns)</span></div>
+  ${refs.length === 0 ? '<p class="muted">Nenhuma referência enviada ainda.</p>' :
+    `<div class="refs-list">${[...refs].reverse().map(r => `
+      <div class="ref-card">
+        <div class="ref-card-head">
+          <span class="chip ${TIPOS[r.tipo]?.cls||'chip-muted'}">${TIPOS[r.tipo]?.label||r.tipo}</span>
+          <b>${esc(r.titulo)}</b>
+          <small class="ref-date">${esc(r.addedAt?.slice(0,10)||'')}</small>
+        </div>
+        ${r.descricao?`<p class="ref-desc">${esc(r.descricao)}</p>`:''}
+        ${r.url?`<a class="ref-link" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a>`:''}
+      </div>`).join('')}
+    </div>`}
+</section>`;
+}
+
+// Vladi — adiciona referências
+function referenciasVladi() {
+  const refs = S?.referencias || [];
+  return `${header('Referências','Envia ideias, links e materiais para o Anderson.')}
+<section class="panel" style="margin-bottom:20px">
+  <div class="panel-head"><h2>Nova referência</h2></div>
+  <div class="ref-form">
+    <div class="field-row"><label>Tipo</label>
+      <select class="camp-input" id="ref-tipo">
+        <option value="marketing">Ideia de Marketing</option>
+        <option value="instagram">Instagram / Redes Sociais</option>
+        <option value="referencia">Referência / Inspiração</option>
+        <option value="campanha">Campanha / Anúncio</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+    <div class="field-row"><label>Título *</label><input class="camp-input" id="ref-titulo" placeholder="Ex: Ideia de reels para julho"></div>
+    <div class="field-row"><label>Descrição</label><textarea class="camp-input ref-textarea" id="ref-desc" placeholder="Detalha a ideia ou contexto..."></textarea></div>
+    <div class="field-row"><label>Link (URL)</label><input class="camp-input" id="ref-url" placeholder="https://instagram.com/..."></div>
+  </div>
+  <button class="btn-primary" id="add-ref">Enviar para Anderson</button>
+</section>
+<section class="panel full">
+  <div class="panel-head"><h2>Enviadas</h2><span>${refs.length} item(ns)</span></div>
+  ${refs.length === 0 ? '<p class="muted">Nenhuma referência enviada ainda.</p>' :
+    `<div class="refs-list">${[...refs].reverse().map((r,i) => `
+      <div class="ref-card">
+        <div class="ref-card-head">
+          <span class="chip ${TIPOS[r.tipo]?.cls||'chip-muted'}">${TIPOS[r.tipo]?.label||r.tipo}</span>
+          <b>${esc(r.titulo)}</b>
+          <small class="ref-date">${esc(r.addedAt?.slice(0,10)||'')}</small>
+          <button class="btn-sm btn-red ref-del" data-refid="${r.id}" style="margin-left:auto">Remover</button>
+        </div>
+        ${r.descricao?`<p class="ref-desc">${esc(r.descricao)}</p>`:''}
+        ${r.url?`<a class="ref-link" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a>`:''}
+      </div>`).join('')}
+    </div>`}
+</section>`;
+}
+
+// ═══════════════════════════════════════════
 //  CAMPANHAS
 // ═══════════════════════════════════════════
 const LEADS_URL = 'https://docs.google.com/spreadsheets/d/1od0uktyo_b1a_jH0x2Cu69lV_1kjDPTQfMVT9WBTUw0/edit?gid=2032513944';
@@ -439,8 +511,8 @@ function appShell() {
   const isV = activeRole === 'vladi';
   const nav = isV ? vladiNav : andersonNav;
   const viewMap = isV
-    ? { exec, backlog: backlogView, approve: approveView, evidence: evidenceView, campaigns: campaignInput, situacao: situacaoView, close: closeView }
-    : { overview, cycle, infra, growth, campaigns, monthly, risks };
+    ? { exec, backlog: backlogView, approve: approveView, evidence: evidenceView, campaigns: campaignInput, referencias: referenciasVladi, situacao: situacaoView, close: closeView }
+    : { overview, cycle, infra, growth, campaigns, referencias: referenciasAnderson, monthly, risks };
   if (!activeView || !viewMap[activeView]) activeView = isV ? 'exec' : 'overview';
   const content = viewMap[activeView]();
   return `<div class="shell" data-role="${activeRole}">
@@ -544,6 +616,33 @@ async function render() {
     await closeCycle({ results, goals, situacao: activeCycle().situacao });
     activeView = 'exec'; render();
   };
+
+  // Adicionar referência (Vladi)
+  const addRef = document.querySelector('#add-ref');
+  if (addRef) addRef.onclick = async () => {
+    const titulo = document.querySelector('#ref-titulo')?.value?.trim();
+    if (!titulo) { alert('Título obrigatório.'); return; }
+    const nova = {
+      id: 'r' + Date.now(),
+      tipo: document.querySelector('#ref-tipo')?.value || 'outro',
+      titulo,
+      descricao: document.querySelector('#ref-desc')?.value?.trim() || '',
+      url: document.querySelector('#ref-url')?.value?.trim() || '',
+      addedAt: new Date().toISOString()
+    };
+    if (!S.referencias) S.referencias = [];
+    S.referencias.push(nova);
+    await patchState({ referencias: S.referencias });
+    render();
+  };
+
+  // Remover referência (Vladi)
+  document.querySelectorAll('.ref-del').forEach(btn => btn.onclick = async () => {
+    const id = btn.dataset.refid;
+    S.referencias = (S.referencias || []).filter(r => r.id !== id);
+    await patchState({ referencias: S.referencias });
+    render();
+  });
 
   // Campaigns
   const sc = document.querySelector('#save-campaigns');

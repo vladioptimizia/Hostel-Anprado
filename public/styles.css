@@ -601,6 +601,19 @@ main {
 .situacao-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .close-actions { margin-top: 20px; }
 
+/* ── Referências ── */
+.refs-list { display: grid; gap: 12px; margin-top: 4px; }
+.ref-card { background: var(--panel2); border: 1px solid var(--line); border-radius: 11px; padding: 16px; display: grid; gap: 8px; min-width: 0; overflow: hidden; }
+.ref-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; }
+.ref-card-head b { font-size: 14px; flex: 1; min-width: 0; word-break: break-word; }
+.ref-date { font: 500 10px 'DM Mono', monospace; color: var(--muted); white-space: nowrap; }
+.ref-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+.ref-link { font: 500 11px 'DM Mono', monospace; color: var(--gold); word-break: break-all; text-decoration: none; }
+.ref-link:hover { text-decoration: underline; }
+.ref-form { display: grid; gap: 12px; margin-bottom: 4px; }
+.ref-textarea { min-height: 80px; resize: vertical; }
+@media (max-width: 800px) { .ref-card-head { flex-direction: column; align-items: flex-start; } }
+
 .site-footer {
   margin-top: 48px;
   padding: 16px 0 8px;

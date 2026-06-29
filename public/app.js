@@ -352,10 +352,10 @@ const TIPOS = {
   outro:     {label:'Outro',     cls:'chip-muted'}
 };
 
-// Anderson — lê referências
+// Vladi — lê referências enviadas pelo Anderson
 function referenciasAnderson() {
   const refs = S?.referencias || [];
-  return `${header('Referências da Optimizia','Ideias e materiais enviados pelo Vladi para apresentação e aprovação.')}
+  return `${header('Referências do Anderson','Ideias e materiais enviados pelo Anderson para execução e análise.')}
 <section class="panel full">
   <div class="panel-head"><h2>Materiais enviados</h2><span>${refs.length} item(ns)</span></div>
   ${refs.length === 0 ? '<p class="muted">Nenhuma referência enviada ainda.</p>' :
@@ -373,10 +373,10 @@ function referenciasAnderson() {
 </section>`;
 }
 
-// Vladi — adiciona referências
+// Anderson — adiciona referências para o Vladi
 function referenciasVladi() {
   const refs = S?.referencias || [];
-  return `${header('Referências','Envia ideias, links e materiais para o Anderson.')}
+  return `${header('Referências','Envia ideias, links e materiais para a Optimizia executar.')}
 <section class="panel" style="margin-bottom:20px">
   <div class="panel-head"><h2>Nova referência</h2></div>
   <div class="ref-form">
@@ -511,8 +511,8 @@ function appShell() {
   const isV = activeRole === 'vladi';
   const nav = isV ? vladiNav : andersonNav;
   const viewMap = isV
-    ? { exec, backlog: backlogView, approve: approveView, evidence: evidenceView, campaigns: campaignInput, referencias: referenciasVladi, situacao: situacaoView, close: closeView }
-    : { overview, cycle, infra, growth, campaigns, referencias: referenciasAnderson, monthly, risks };
+    ? { exec, backlog: backlogView, approve: approveView, evidence: evidenceView, campaigns: campaignInput, referencias: referenciasAnderson, situacao: situacaoView, close: closeView }
+    : { overview, cycle, infra, growth, campaigns, referencias: referenciasVladi, monthly, risks };
   if (!activeView || !viewMap[activeView]) activeView = isV ? 'exec' : 'overview';
   const content = viewMap[activeView]();
   return `<div class="shell" data-role="${activeRole}">

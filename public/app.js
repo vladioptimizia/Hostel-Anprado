@@ -435,9 +435,9 @@ function campaigns() {
   const RELATORIO_DL   = 'https://drive.google.com/uc?export=download&id=1KH7yisHkBF0GqPpBz__T83sz4P0C8aah';
   return `${header('Campanhas & Site','Resultados de mídia paga. Dados actualizados pela Optimizia.')}
 
-<section class="risk" style="border-left-color:#e05252;background:rgba(220,70,70,.07);margin-bottom:20px">
-  <b style="color:#e07070">Prioridade #1 — Tracking de conversões inativo no site</b>
-  <span>O código de acompanhamento do Google Ads no site ainda tem IDs de exemplo (AW-XXXXXXXXX). O Google não está a registar os cliques no WhatsApp como conversões. Vladi irá publicar a correção no Netlify.</span>
+<section class="risk" style="border-left-color:#3a9c5f;background:rgba(58,156,95,.07);margin-bottom:20px">
+  <b style="color:#4caf78">Tracking de conversões activo</b>
+  <span>O código Google Ads (AW-11407044296) está publicado no site hostelanprado.com.br. O Google já consegue registar os cliques no WhatsApp como conversões.</span>
 </section>
 
 <section class="panel full" style="margin-bottom:20px">
@@ -456,9 +456,9 @@ function campaigns() {
       <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Conta Google Ads</div>
       <div style="font-size:13px;color:var(--text)">657-277-6633 · Budget total: <b>R$ 26,00/dia</b><br>(R$ 18 Marca + R$ 8 Genérico)</div>
     </div>
-    <div style="background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);border-radius:8px;padding:14px">
-      <div style="font-size:11px;color:#e07070;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Ação pendente</div>
-      <div style="font-size:13px;color:var(--text)">Vladi publica a correção do tracking no Netlify (projeto "hostelanprado") — confirmar que o ID de conversão real está activo.</div>
+    <div style="background:rgba(58,156,95,.1);border:1px solid rgba(58,156,95,.3);border-radius:8px;padding:14px">
+      <div style="font-size:11px;color:#4caf78;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Tracking activo</div>
+      <div style="font-size:13px;color:var(--text)">ID de conversão real publicado no Netlify em 30 jun 2026. O Google já regista cliques no WhatsApp.</div>
     </div>
   </div>
 </section>

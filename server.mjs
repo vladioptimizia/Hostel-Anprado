@@ -7,11 +7,12 @@ const root = process.cwd();
 const publicDir = join(root, 'public');
 const port = Number(process.env.PORT || 4174);
 const host = process.env.HOST || '0.0.0.0';
-const andersonPwd = process.env.ANPRADO_ANDERSON_PASSWORD || '';
-const vladPwd     = process.env.ANPRADO_VLADI_PASSWORD || '';
-const SUPA_URL    = process.env.SUPABASE_URL || '';
-const SUPA_KEY    = process.env.SUPABASE_KEY || '';
-const STATE_KEY   = 'hostel_anprado';
+const andersonPwd   = process.env.ANPRADO_ANDERSON_PASSWORD || '';
+const vladPwd       = process.env.ANPRADO_VLADI_PASSWORD || '';
+const SUPA_URL      = process.env.SUPABASE_URL || '';
+const SUPA_KEY      = process.env.SUPABASE_KEY || '';
+const WEBHOOK_TOKEN = process.env.ANPRADO_WEBHOOK_TOKEN || '';
+const STATE_KEY     = 'hostel_anprado';
 
 const sessions = new Map();
 const cookieName = 'anprado_session';
@@ -104,6 +105,25 @@ createServer(async (req, res) => {
   if (url.pathname === '/api/logout' && req.method === 'POST') {
     sessions.delete(token);
     return json(res, 204, {}, { 'set-cookie': `${cookieName}=; Max-Age=0; Path=/` });
+  }
+
+  // ── Webhook Claude/Cowork ─────────────────────────────────────
+  if (url.pathname === '/api/webhook' && req.method === 'POST') {
+    if (!WEBHOOK_TOKEN) return json(res, 503, { error: 'Webhook não configurado.' });
+    const auth = (req.headers['authorization'] || '').replace('Bearer ', '').trim();
+    const tokenBuf = Buffer.from(WEBHOOK_TOKEN); const authBuf = Buffer.from(auth);
+    const valid = tokenBuf.length === authBuf.length && timingSafeEqual(tokenBuf, authBuf);
+    if (!valid) return json(res, 401, { error: 'Token inválido.' });
+    const data = await readBody(req);
+    if (!appState) appState = await loadState();
+    if (data.campaigns !== undefined) appState.campaigns = data.campaigns;
+    if (data.referencias !== undefined) appState.referencias = data.referencias;
+    if (data.cycles !== undefined) appState.cycles = data.cycles;
+    if (data.google !== undefined) { if (!appState.campaigns) appState.campaigns = {}; appState.campaigns.google = data.google; }
+    if (data.meta !== undefined) { if (!appState.campaigns) appState.campaigns = {}; appState.campaigns.meta = data.meta; }
+    await saveState(appState);
+    console.log('Webhook update:', Object.keys(data).join(', '));
+    return json(res, 200, { ok: true, updated: Object.keys(data) });
   }
 
   if (url.pathname.startsWith('/api/') && !role)

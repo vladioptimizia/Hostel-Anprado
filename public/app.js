@@ -393,7 +393,7 @@ function referenciasVladi() {
     <div class="field-row"><label>Descrição</label><textarea class="camp-input ref-textarea" id="ref-desc" placeholder="Detalha a ideia ou contexto..."></textarea></div>
     <div class="field-row"><label>Link (URL)</label><input class="camp-input" id="ref-url" placeholder="https://instagram.com/..."></div>
   </div>
-  <button class="btn-primary" id="add-ref">Enviar para Anderson</button>
+  <button class="btn-primary" id="add-ref">Enviar para Vladi</button>
 </section>
 <section class="panel full">
   <div class="panel-head"><h2>Enviadas</h2><span>${refs.length} item(ns)</span></div>

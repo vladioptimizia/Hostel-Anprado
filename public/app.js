@@ -431,26 +431,52 @@ const metricCard = (label, value) => {
 function campaigns() {
   const g = S?.campaigns?.google || {};
   const m = S?.campaigns?.meta || {};
+  const RELATORIO_VIEW = 'https://drive.google.com/file/d/1KH7yisHkBF0GqPpBz__T83sz4P0C8aah/view?usp=drivesdk';
+  const RELATORIO_DL   = 'https://drive.google.com/uc?export=download&id=1KH7yisHkBF0GqPpBz__T83sz4P0C8aah';
   return `${header('Campanhas & Site','Resultados de mídia paga. Dados actualizados pela Optimizia.')}
-<section class="risk" style="border-left-color:#f0a500;background:rgba(240,165,0,.07);margin-bottom:20px">
-  <b style="color:#f0c040">⚠ Ação urgente — Regularizar saldo em atraso no Google Ads</b>
-  <span>Sem regularizar a faturação, nenhuma campanha entrega impressões.</span>
+
+<section class="risk" style="border-left-color:#e05252;background:rgba(220,70,70,.07);margin-bottom:20px">
+  <b style="color:#e07070">Prioridade #1 — Tracking de conversões inativo no site</b>
+  <span>O código de acompanhamento do Google Ads no site ainda tem IDs de exemplo (AW-XXXXXXXXX). O Google não está a registar os cliques no WhatsApp como conversões. Vladi irá publicar a correção no Netlify.</span>
 </section>
+
+<section class="panel full" style="margin-bottom:20px">
+  <div class="panel-head"><h2>Relatório Estratégico — Google Ads</h2><span>30 jun 2026 · Optimizia</span></div>
+  <p style="color:var(--text-muted);margin:0 0 16px;font-size:14px">Documento completo com auditoria das campanhas, racional estratégico, resultados e plano de ação. Elaborado pela Optimizia para leitura e acompanhamento.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+    <a class="btn-primary" href="${RELATORIO_VIEW}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">Abrir documento</a>
+    <a href="${RELATORIO_DL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1px solid var(--border);border-radius:8px;color:var(--text-muted);text-decoration:none;font-size:14px">Baixar .docx</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+    <div style="background:var(--surface2);border-radius:8px;padding:14px">
+      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Estrutura actual</div>
+      <div style="font-size:13px;color:var(--text)">2 campanhas ativas: <b>Marca</b> (quem já conhece o hostel) e <b>Genérico</b> (quem procura hospedagem perto do GRU). As campanhas antigas foram pausadas.</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:14px">
+      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Conta Google Ads</div>
+      <div style="font-size:13px;color:var(--text)">657-277-6633 · Budget total: <b>R$ 26,00/dia</b><br>(R$ 18 Marca + R$ 8 Genérico)</div>
+    </div>
+    <div style="background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);border-radius:8px;padding:14px">
+      <div style="font-size:11px;color:#e07070;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Ação pendente</div>
+      <div style="font-size:13px;color:var(--text)">Vladi publica a correção do tracking no Netlify (projeto "hostelanprado") — confirmar que o ID de conversão real está activo.</div>
+    </div>
+  </div>
+</section>
+
 <section class="panel full">
-  <div class="panel-head"><h2>Google Ads</h2><span>${esc(g.periodo||'—')}</span></div>
+  <div class="panel-head"><h2>Google Ads</h2><span>Dados até 30 jun 2026</span></div>
   <div class="camp-rows">
     <div class="camp-row camp-active">
-      <div class="camp-row-head"><b>Hostel aeroporto de guarulhos</b><span class="chip chip-green">Qualificada · ativa</span></div>
-      <div class="metrics-grid">${metricCard('Budget/dia','R$ 3,00')}${metricCard('Impressões','296.608')}${metricCard('Cliques','3.947')}${metricCard('CTR','1,33%')}${metricCard('CPC médio','R$ 0,33')}${metricCard('Custo total','R$ 1.299,01')}</div>
+      <div class="camp-row-head"><b>Hostel Anprado [Marca]</b><span class="chip chip-green">Ativa</span></div>
+      <p class="camp-note" style="margin:4px 0 10px;color:var(--text-muted);font-size:13px">Captura quem já pesquisa o nome do hostel — custo baixo, conversão alta.</p>
+      <div class="metrics-grid">${metricCard('Budget/dia','R$ 18,00')}${metricCard('Impressões','4')}${metricCard('Cliques','0')}${metricCard('Custo acum.','R$ 0,00')}${metricCard('Estratégia','Max. conv.')}</div>
+      <small class="camp-note">Volume baixo é esperado — a marca é recente. Cresce à medida que mais pessoas conhecerem o hostel.</small>
     </div>
-    <div class="camp-row">
-      <div class="camp-row-head"><b>Hotel Proximo ao aeroporto de guarulhos</b><span class="chip chip-muted">Finalizada</span></div>
-      <div class="metrics-grid">${metricCard('Budget total','R$ 300,00')}${metricCard('Impressões','95.499')}${metricCard('Cliques','284')}${metricCard('CTR','0,30%')}${metricCard('CPC','R$ 0,18')}${metricCard('Custo total','R$ 50,09')}</div>
-    </div>
-    <div class="camp-row camp-warn">
-      <div class="camp-row-head"><b>Hostel Anprado - WhatsApp - GRU</b><span class="chip chip-gold">Sem anúncios</span></div>
-      <div class="metrics-grid">${metricCard('Budget/dia','R$ 20,00')}${metricCard('Impressões','0')}${metricCard('Cliques','0')}${metricCard('Custo','R$ 0,00')}</div>
-      <small class="camp-note">Orçamento alocado mas sem anúncios criados — requer atenção</small>
+    <div class="camp-row camp-active">
+      <div class="camp-row-head"><b>Hostel Anprado [Genérico]</b><span class="chip chip-green">Ativa</span></div>
+      <p class="camp-note" style="margin:4px 0 10px;color:var(--text-muted);font-size:13px">Captura quem procura "hospedagem perto do aeroporto de Guarulhos" — traz clientes novos.</p>
+      <div class="metrics-grid">${metricCard('Budget/dia','R$ 8,00')}${metricCard('Impressões','91')}${metricCard('Cliques','3')}${metricCard('CTR','3,30%')}${metricCard('CPC médio','R$ 2,28')}${metricCard('Custo acum.','R$ 6,83')}</div>
+      <small class="camp-note">Optimization score 93,4%. Aguarda correção do tracking para aprender com conversões reais.</small>
     </div>
   </div>
   <a class="ext-link" href="${GADS_URL}" target="_blank">Abrir Google Ads →</a>

@@ -177,11 +177,49 @@ function monthly() {
 }
 
 function risks() {
-  return `${header('Decisões e riscos em aberto','Onde a decisão do Anderson desbloqueia a próxima etapa.')}
-<section class="risk"><b>Risco 01 · Conta pessoal</b><span>Transferir o projeto e os acessos para a empresa evita perda de domínio, deploy ou histórico.</span></section>
-<section class="risk"><b>Risco 02 · Investir sem medição</b><span>Campanhas sem eventos e UTMs impedem saber o que gera contatos e reservas.</span></section>
-<section class="risk"><b>Risco 03 · Versão visual não aprovada</b><span>Fotos, galeria, botões e experiência mobile precisam ser aprovados antes do lançamento de mídia.</span></section>
-<section class="panel"><h2>Decisão necessária agora</h2><p class="muted">Anderson confirma o responsável pelas contas, o acesso ao domínio e a data de início das campanhas.</p></section>`;
+  return `${header('Decisões & Riscos','Estado actual — o que já foi resolvido e o que ainda precisa da tua ação.')}
+
+<section class="panel full" style="margin-bottom:16px">
+  <div class="panel-head"><h2>Resolvido</h2><span>Jul 2026</span></div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(58,156,95,.08);border-radius:8px;border:1px solid rgba(58,156,95,.2)">
+      <span style="color:#4caf78;font-size:18px;line-height:1">✓</span>
+      <div><b style="color:#4caf78">Tracking de conversões activo</b><br><span style="font-size:13px;color:var(--text-muted)">Código Google Ads (AW-11407044296) publicado no site hostelanprado.com.br. O Google já regista os cliques no WhatsApp.</span></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(58,156,95,.08);border-radius:8px;border:1px solid rgba(58,156,95,.2)">
+      <span style="color:#4caf78;font-size:18px;line-height:1">✓</span>
+      <div><b style="color:#4caf78">Campanhas Google Ads activas</b><br><span style="font-size:13px;color:var(--text-muted)">Estrutura nova no ar: Hostel Anprado [Marca] R$18/dia + [Genérico] R$8/dia. As 3 campanhas antigas pausadas.</span></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(58,156,95,.08);border-radius:8px;border:1px solid rgba(58,156,95,.2)">
+      <span style="color:#4caf78;font-size:18px;line-height:1">✓</span>
+      <div><b style="color:#4caf78">Site no ar com HTTPS</b><br><span style="font-size:13px;color:var(--text-muted)">hostelanprado.com.br publicado no Netlify com SSL activo, SEO técnico e tags Open Graph aplicados.</span></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(58,156,95,.08);border-radius:8px;border:1px solid rgba(58,156,95,.2)">
+      <span style="color:#4caf78;font-size:18px;line-height:1">✓</span>
+      <div><b style="color:#4caf78">Conta Netlify criada</b><br><span style="font-size:13px;color:var(--text-muted)">Conta do hostel criada no Netlify. Aguarda confirmação do 2FA pelo Anderson.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="risk" style="border-left-color:#e05252">
+  <b style="color:#e07070">Bloqueio activo — Acesso ao e-mail oficial do hostel</b>
+  <span>Vladi precisa do e-mail oficial do Hostel Anprado para configurar GA4, Google Tag Manager, Search Console e Meta Ads. Sem isto, não é possível medir o tráfego orgânico nem lançar campanhas Meta.</span>
+</section>
+
+<section class="risk" style="border-left-color:#f0a500">
+  <b style="color:#f0c040">Decisão pendente — Confirmar 2FA no Netlify</b>
+  <span>A conta Netlify onde o site está hospedado precisa de activação do segundo factor de autenticação pelo Anderson. Garante que só tu tens acesso ao deploy do site.</span>
+</section>
+
+<section class="risk" style="border-left-color:#f0a500">
+  <b style="color:#f0c040">Decisão pendente — Arranque Meta Ads</b>
+  <span>Ainda não há campanhas activas no Meta (Instagram/Facebook). Quando quiseres avançar, confirma o orçamento mensal e Vladi monta a estrutura.</span>
+</section>
+
+<section class="panel" style="margin-top:8px">
+  <h2>Próxima ação do Anderson</h2>
+  <p class="muted">1. Fornecer o e-mail oficial do hostel para desbloquear GA4, GTM e Meta.<br>2. Confirmar 2FA na conta Netlify.<br>3. Decidir data e orçamento para arranque Meta Ads.</p>
+</section>`;
 }
 
 // ═══════════════════════════════════════════

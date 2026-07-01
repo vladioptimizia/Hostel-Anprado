@@ -467,74 +467,119 @@ const metricCard = (label, value) => {
 };
 
 function campaigns() {
-  const g = S?.campaigns?.google || {};
   const m = S?.campaigns?.meta || {};
   const RELATORIO_VIEW = 'https://drive.google.com/file/d/1KH7yisHkBF0GqPpBz__T83sz4P0C8aah/view?usp=drivesdk';
-  const RELATORIO_DL   = 'https://drive.google.com/uc?export=download&id=1KH7yisHkBF0GqPpBz__T83sz4P0C8aah';
-  return `${header('Campanhas & Site','Resultados de mídia paga. Dados actualizados pela Optimizia.')}
+  const adPreview = (url, titles, descs) => `
+    <div class="ad-preview">
+      <div class="ad-preview-badge">Anúncio</div>
+      <div class="ad-preview-url">${url}</div>
+      <div class="ad-preview-titles">${titles.join(' · ')}</div>
+      ${descs.map(d => `<div class="ad-preview-desc">${d}</div>`).join('')}
+    </div>`;
+  return `${header('Campanhas & Anúncios','O que está no ar agora — anúncios activos, métricas e criativos em produção.')}
 
-<section class="risk" style="border-left-color:#3a9c5f;background:rgba(58,156,95,.07);margin-bottom:20px">
-  <b style="color:#4caf78">Tracking de conversões activo</b>
-  <span>O código Google Ads (AW-11407044296) está publicado no site hostelanprado.com.br. O Google já consegue registar os cliques no WhatsApp como conversões.</span>
-</section>
+<div class="camp-summary-bar">
+  <div class="csb-item"><span class="csb-val">2</span><span class="csb-label">campanhas activas</span></div>
+  <div class="csb-item"><span class="csb-val">3</span><span class="csb-label">cliques recebidos</span></div>
+  <div class="csb-item"><span class="csb-val">95</span><span class="csb-label">impressões</span></div>
+  <div class="csb-item"><span class="csb-val">R$&nbsp;26/dia</span><span class="csb-label">investimento</span></div>
+  <div class="csb-item csb-ok"><span class="csb-val">✓</span><span class="csb-label">tracking activo</span></div>
+</div>
 
-<section class="panel full" style="margin-bottom:20px">
-  <div class="panel-head"><h2>Relatório Estratégico — Google Ads</h2><span>30 jun 2026 · Optimizia</span></div>
-  <p style="color:var(--text-muted);margin:0 0 16px;font-size:14px">Documento completo com auditoria das campanhas, racional estratégico, resultados e plano de ação. Elaborado pela Optimizia para leitura e acompanhamento.</p>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
-    <a class="btn-primary" href="${RELATORIO_VIEW}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">Abrir documento</a>
-    <a href="${RELATORIO_DL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1px solid var(--border);border-radius:8px;color:var(--text-muted);text-decoration:none;font-size:14px">Baixar .docx</a>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-    <div style="background:var(--surface2);border-radius:8px;padding:14px">
-      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Estrutura actual</div>
-      <div style="font-size:13px;color:var(--text)">2 campanhas ativas: <b>Marca</b> (quem já conhece o hostel) e <b>Genérico</b> (quem procura hospedagem perto do GRU). As campanhas antigas foram pausadas.</div>
-    </div>
-    <div style="background:var(--surface2);border-radius:8px;padding:14px">
-      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Conta Google Ads</div>
-      <div style="font-size:13px;color:var(--text)">657-277-6633 · Budget total: <b>R$ 26,00/dia</b><br>(R$ 18 Marca + R$ 8 Genérico)</div>
-    </div>
-    <div style="background:rgba(58,156,95,.1);border:1px solid rgba(58,156,95,.3);border-radius:8px;padding:14px">
-      <div style="font-size:11px;color:#4caf78;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Tracking activo</div>
-      <div style="font-size:13px;color:var(--text)">ID de conversão real publicado no Netlify em 30 jun 2026. O Google já regista cliques no WhatsApp.</div>
-    </div>
-  </div>
-</section>
+<h3 class="camp-section-title">Google Ads — Pesquisa</h3>
 
-<section class="panel full">
-  <div class="panel-head"><h2>Google Ads</h2><span>Dados até 30 jun 2026</span></div>
-  <div class="camp-rows">
-    <div class="camp-row camp-active">
-      <div class="camp-row-head"><b>Hostel Anprado [Marca]</b><span class="chip chip-green">Ativa</span></div>
-      <p class="camp-note" style="margin:4px 0 10px;color:var(--text-muted);font-size:13px">Captura quem já pesquisa o nome do hostel — custo baixo, conversão alta.</p>
-      <div class="metrics-grid">${metricCard('Budget/dia','R$ 18,00')}${metricCard('Impressões','4')}${metricCard('Cliques','0')}${metricCard('Custo acum.','R$ 0,00')}${metricCard('Estratégia','Max. conv.')}</div>
-      <small class="camp-note">Volume baixo é esperado — a marca é recente. Cresce à medida que mais pessoas conhecerem o hostel.</small>
+<div class="ad-card">
+  <div class="ad-card-head">
+    <div class="ad-card-info">
+      <span class="chip chip-green">Ativa</span>
+      <b>Hostel Anprado [Marca]</b>
+      <span class="ad-card-sub">Para quem já pesquisa o nome do hostel no Google</span>
     </div>
-    <div class="camp-row camp-active">
-      <div class="camp-row-head"><b>Hostel Anprado [Genérico]</b><span class="chip chip-green">Ativa</span></div>
-      <p class="camp-note" style="margin:4px 0 10px;color:var(--text-muted);font-size:13px">Captura quem procura "hospedagem perto do aeroporto de Guarulhos" — traz clientes novos.</p>
-      <div class="metrics-grid">${metricCard('Budget/dia','R$ 8,00')}${metricCard('Impressões','91')}${metricCard('Cliques','3')}${metricCard('CTR','3,30%')}${metricCard('CPC médio','R$ 2,28')}${metricCard('Custo acum.','R$ 6,83')}</div>
-      <small class="camp-note">Optimization score 93,4%. Aguarda correção do tracking para aprender com conversões reais.</small>
+    <div class="ad-card-metrics">
+      <div class="adm"><strong>R$&nbsp;18</strong><span>/dia</span></div>
+      <div class="adm"><strong>4</strong><span>impressões</span></div>
+      <div class="adm"><strong>0</strong><span>cliques</span></div>
     </div>
   </div>
-  <a class="ext-link" href="${GADS_URL}" target="_blank">Abrir Google Ads →</a>
-</section>
-<section class="layout two">
-  <article class="panel">
-    <div class="panel-head"><h2>Meta Ads</h2><span>${esc(m.periodo||'não configurado')}</span></div>
-    ${m.verba ? `<div class="metrics-grid">${metricCard('Verba','R$ '+m.verba)}${metricCard('Impressões',m.impressoes)}${metricCard('Cliques',m.cliques)}${metricCard('CPM',m.cpm?'R$ '+m.cpm:'')}${metricCard('Contatos',m.contatos)}${metricCard('Reservas',m.reservas)}</div>` : '<p class="muted">Sem dados ainda. Vladi actualiza na vista Campanhas.</p>'}
-    <a class="ext-link" href="${META_URL}" target="_blank">Abrir Meta Ads →</a>
-  </article>
-  <article class="panel">
-    <div class="panel-head"><h2>Site & canais</h2></div>
-    <div class="site-links">
-      <a class="site-link" href="${SITE_URL}" target="_blank"><span class="site-link-icon">🌐</span><div><b>hostelanprado.com.br</b><small>Site oficial</small></div></a>
-      <a class="site-link" href="${MAPS_URL}" target="_blank"><span class="site-link-icon">📍</span><div><b>Google Maps</b><small>4.8★ · 145 avaliações</small></div></a>
-      <a class="site-link" href="https://wa.me/5511983096540" target="_blank"><span class="site-link-icon">💬</span><div><b>WhatsApp</b><small>${WHATSAPP}</small></div></a>
-      <a class="site-link" href="${LEADS_URL}" target="_blank"><span class="site-link-icon">📊</span><div><b>Planilha de leads</b><small>controle de contatos e reservas</small></div></a>
+  <div class="ad-card-body">
+    <p class="ad-kw-label">Termos de pesquisa que activam este anúncio:</p>
+    <div class="ad-kw-list">
+      <span class="ad-kw">hostel anprado</span><span class="ad-kw">hostel anprado guarulhos</span><span class="ad-kw">hostelanprado</span>
     </div>
-  </article>
-</section>`;
+    <p class="ad-preview-label-outer">Como aparece no Google:</p>
+    ${adPreview('hostelanprado.com.br',
+      ['Hostel Anprado','Site Oficial — Hostel Anprado','Reserva Direta, Sem Taxas'],
+      ['Hostel Anprado, perto do Aeroporto Guarulhos. Café da manhã incluso e quartos privativos.',
+       'Reserve direto com a gente, sem taxas extras. Fale agora no WhatsApp e tire suas dúvidas.'])}
+    <p class="ad-note">Volume baixo é normal — a marca é recente. Cresce à medida que mais pessoas pesquisarem o nome directamente.</p>
+  </div>
+</div>
+
+<div class="ad-card">
+  <div class="ad-card-head">
+    <div class="ad-card-info">
+      <span class="chip chip-green">Ativa</span>
+      <b>Hostel Anprado [Genérico]</b>
+      <span class="ad-card-sub">Para quem procura hospedagem perto do aeroporto de Guarulhos</span>
+    </div>
+    <div class="ad-card-metrics">
+      <div class="adm"><strong>R$&nbsp;8</strong><span>/dia</span></div>
+      <div class="adm"><strong>91</strong><span>impressões</span></div>
+      <div class="adm adm-hi"><strong>3</strong><span>cliques</span></div>
+      <div class="adm"><strong>3,3%</strong><span>CTR</span></div>
+      <div class="adm"><strong>R$&nbsp;2,28</strong><span>por clique</span></div>
+    </div>
+  </div>
+  <div class="ad-card-body">
+    <p class="ad-kw-label">Termos de pesquisa que activam este anúncio:</p>
+    <div class="ad-kw-list">
+      <span class="ad-kw">hospedagem guarulhos</span><span class="ad-kw">hostel guarulhos</span><span class="ad-kw">hotel perto do aeroporto</span><span class="ad-kw">hotel aeroporto guarulhos</span>
+    </div>
+    <p class="ad-preview-label-outer">Como aparece no Google:</p>
+    ${adPreview('hostelanprado.com.br',
+      ['Hostel Próximo Aeroporto GRU','Perto do Aeroporto Guarulhos','Café da Manhã Incluso'],
+      ['Hostel a poucos minutos do Aeroporto. Café da manhã incluso e quartos privativos.',
+       'Conforto, limpeza e preço justo. Fale agora no WhatsApp e garanta sua reserva.'])}
+    <p class="ad-note">Optimization score 93,4% · Os 3 cliques recebidos foram para o WhatsApp.</p>
+  </div>
+</div>
+
+<h3 class="camp-section-title">Criativos — Banners <span class="chip chip-gold" style="font-size:11px;vertical-align:middle">Em produção</span></h3>
+
+<div class="ad-card ad-card-wip">
+  <div class="ad-card-body" style="padding-top:16px">
+    <p style="color:var(--text-muted);font-size:13px;margin:0 0 14px">Os banners visuais estão a ser criados agora pela Optimizia. Serão usados no Google Display e Meta Ads (Instagram/Facebook). Aqui vês o progresso:</p>
+    <div class="banner-grid">
+      <div class="banner-slot"><div class="banner-slot-inner"><span>1200×628</span><small>Feed Facebook / Instagram</small></div></div>
+      <div class="banner-slot"><div class="banner-slot-inner"><span>1080×1080</span><small>Quadrado Instagram</small></div></div>
+      <div class="banner-slot"><div class="banner-slot-inner"><span>1080×1920</span><small>Stories & Reels</small></div></div>
+      <div class="banner-slot banner-slot-ready"><div class="banner-slot-inner"><span>✓ Responsivo</span><small>Google Display (activo)</small></div></div>
+    </div>
+    <p class="ad-note" style="margin-top:12px">Quando os banners estiverem prontos aparecem aqui para aprovação antes de irem ao ar.</p>
+  </div>
+</div>
+
+<h3 class="camp-section-title">Meta Ads — Instagram & Facebook</h3>
+<div class="ad-card" style="opacity:.75">
+  <div class="ad-card-head">
+    <div class="ad-card-info">
+      <span class="chip chip-muted">Aguardando arranque</span>
+      <b>Campanhas Meta Ads</b>
+      <span class="ad-card-sub">Arranca após aprovação dos banners e definição do orçamento</span>
+    </div>
+  </div>
+  ${m.verba
+    ? `<div class="ad-card-body"><div class="metrics-grid">${metricCard('Verba','R$ '+m.verba)}${metricCard('Impressões',m.impressoes)}${metricCard('Cliques',m.cliques)}${metricCard('Contatos',m.contatos)}</div></div>`
+    : `<div class="ad-card-body"><p class="ad-note">Sem campanhas activas ainda. Assim que os banners estiverem prontos e o orçamento definido, a Optimizia monta a estrutura.</p></div>`}
+</div>
+
+<div class="camp-footer-links">
+  <a class="site-link" href="${SITE_URL}" target="_blank"><span class="site-link-icon">🌐</span><div><b>hostelanprado.com.br</b><small>Site oficial</small></div></a>
+  <a class="site-link" href="${GADS_URL}" target="_blank"><span class="site-link-icon">📈</span><div><b>Google Ads</b><small>conta 657-277-6633</small></div></a>
+  <a class="site-link" href="${META_URL}" target="_blank"><span class="site-link-icon">📘</span><div><b>Meta Ads</b><small>Business Manager</small></div></a>
+  <a class="site-link" href="${LEADS_URL}" target="_blank"><span class="site-link-icon">📊</span><div><b>Planilha de leads</b><small>contactos e reservas</small></div></a>
+  <a class="site-link" href="${RELATORIO_VIEW}" target="_blank"><span class="site-link-icon">📄</span><div><b>Relatório Google Ads</b><small>auditoria completa · jun 2026</small></div></a>
+</div>`;
 }
 
 function campaignInput() {
